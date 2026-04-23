@@ -1,0 +1,46 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: yn-employment
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:${user.dir}/../data/yn-employment.db
+    username:
+    password:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+      continue-on-error: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+
+app:
+  jwt:
+    # 256-bit secret (>=32 chars). Replace in production.
+    secret: yn-employment-jwt-secret-key-change-me-please-2026
+    expire-hours: 24
+    header: Authorization
+    prefix: "Bearer "
+
+logging:
+  level:
+    com.yn.employment: DEBUG
+    org.springframework.jdbc.datasource.init: INFO
