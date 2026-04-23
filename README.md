@@ -265,6 +265,33 @@ curl -X POST http://localhost:8080/api/auth/login \
   -d '{"username":"province","password":"123456"}'
 ```
 
+## 配置管理（CM）
+
+完整 CM 计划见 [docs/CM-Plan.md](docs/CM-Plan.md)，所有版本变更见 [CHANGELOG.md](CHANGELOG.md)。
+
+**简要说明**：
+- **Git + GitHub** 做版本控制，远程仓库 https://github.com/qiantaiwen2050-ops/yn_employement
+- **分支策略**：`main` 受保护，所有变更通过 `<type>/<topic>` 分支 + Pull Request 合入
+- **里程碑基线**：M1–M7 每完成一个打基线 tag（`v0.1.0-M1` ... `v0.7.0-M7`），首次正式发布为 `v1.0.0`
+- **持续集成**：[.github/workflows/ci.yml](.github/workflows/ci.yml) 在每次 push / PR 自动跑后端 Maven compile + 前端 Vite build
+- **应用层审计**：`sys_log` 表记录所有"有后果"的写操作，省级用户可在「系统管理 → 操作日志」页查询
+- **变更控制流程**：`Issue → 分支 → commits → PR → CI 通过 → Code Review → Merge → 关闭 Issue + 删分支`
+
+**答辩演示 CM 部分可截图的内容**（GitHub 仓库内即可全部看到）：
+
+| # | 截图内容 | 在 GitHub 哪里找 |
+|---|---|---|
+| 1 | 7 个里程碑 commit + 2 个 merge commit 的提交历史 | 仓库主页 → `Commits` |
+| 2 | 分支拓扑图（main 上有两次 merge） | 终端跑 `git log --graph --all --oneline` 截屏，或 GitHub `Insights → Network` |
+| 3 | 9 个 baseline tag (v0.1.0-M1 ... v1.0.0) | 仓库主页 → `Tags` 或 `Releases` |
+| 4 | Pull Request 列表 + 至少 1 个合并的 PR 详情 | `Pull requests` tab |
+| 5 | GitHub Actions 构建跑通（绿勾） | `Actions` tab |
+| 6 | Issues（开 + 关）演示变更跟踪 | `Issues` tab |
+| 7 | CHANGELOG.md 渲染 | `CHANGELOG.md` 文件页 |
+| 8 | docs/CM-Plan.md 渲染 | `docs/CM-Plan.md` 文件页 |
+| 9 | 应用内「操作日志」页（sys_log 数据） | 本地起服务 → 用 `province / 123456` → 系统管理 → 操作日志 |
+| 10 | README 渲染（含 CM 章节） | 仓库主页 |
+
 ## 已知约束（与 SRS / SOW 的差异）
 
 - SRS 第 7 章约定 MySQL 8.0+，本项目用 SQLite 简化部署，迁移成本极低（改 `application.yml` 数据源即可）
