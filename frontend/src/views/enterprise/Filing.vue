@@ -82,15 +82,17 @@
           </el-form-item>
         </el-col>
       </el-row>
-
-      <div v-if="!readonly" class="actions">
-        <el-button :loading="saving" @click="onSave">保存草稿</el-button>
-        <el-button type="primary" :loading="submitting" @click="onSubmit">{{ submitLabel }}</el-button>
-      </div>
-      <div v-else class="actions">
-        <el-button v-if="data?.filingStatus === 'APPROVED'" type="primary" @click="readonly = false">重新编辑信息</el-button>
-      </div>
     </el-form>
+
+    <!-- Actions placed OUTSIDE <el-form> so they don't inherit its disabled state
+         (Element Plus cascades the form's `disabled` to nested buttons). -->
+    <div v-if="!readonly" class="actions">
+      <el-button :loading="saving" @click="onSave">保存草稿</el-button>
+      <el-button type="primary" :loading="submitting" @click="onSubmit">{{ submitLabel }}</el-button>
+    </div>
+    <div v-else class="actions">
+      <el-button v-if="data?.filingStatus === 'APPROVED'" type="primary" @click="readonly = false">重新编辑信息</el-button>
+    </div>
   </el-card>
 </template>
 
